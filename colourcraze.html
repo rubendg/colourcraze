@@ -1,0 +1,59 @@
+<html>
+   <head>
+      <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+      <script src="http://subtext.googlecode.com/svn-history/r4074/branches/Release2.5/src/Subtext.Web/Scripts/jquery.color.min.js"></script>
+      <script>
+         window.onload = function() {
+            var madness = document.getElementById('colorMadness');
+            madness.style.cssText = "width:100%;height:100%;background:#000;";
+            
+            var intervalMax = 200;
+
+            var f = function() {
+               var id = setInterval(function() {
+                  var newColor = get_random_color();
+                  var r = Math.max(intervalMax, Math.random() * intervalMax);
+                  $(madness).animate({ backgroundColor: newColor }, r, function() {
+                    madness.style.background = newColor;
+                    clearInterval(id);
+                    f();
+                  });
+               }, Math.max(intervalMax, Math.random() * intervalMax));
+            }
+
+            var snowman = $('#snowman');
+            snowman.attr('style', 'padding-top:15%;text-align:center;');
+
+            var g = function() {
+              snowman.animate({ fontSize : '3000%', }, 300, function() {
+                  snowman.animate({ fontSize : '100%'}, 300, function() {
+                    g();
+                    snowman.html(randUnicode());
+                  });
+              });
+            };
+
+            function get_random_color() {
+                var letters = '0123456789ABCDEF'.split('');
+                var color = '#';
+                for (var i = 0; i < 6; i++ ) {
+                    color += letters[Math.round(Math.random() * 15)];
+                }
+                return color;
+            }
+
+            function randUnicode() {
+              return '&#' + Math.floor(Math.random() * 10000) + ';';
+            }
+
+            f();
+            g();
+         };
+      </script>
+   </head>
+</html>
+<body style="margin:0px;padding:0px;">
+   <div id="colorMadness">
+    <div id="snowman">&#9731;</div>
+   </div>
+</body>
